@@ -1,0 +1,33 @@
+name: Deploy Service
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-east-1
+
+jobs:
+  ops_demo_deploy:
+    runs-on: deploy-runner
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::818052344024:role/GithubActionsRole
+          role-session-name: GithubActions
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Chekout out Code
+        uses: actions/checkout@v2
+      
+      - run: echo "name"
