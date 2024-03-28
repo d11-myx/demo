@@ -44,24 +44,9 @@ jobs:
           ECR_REPOSITORY: demo
           IMAGE_TAG: ${ TIME_TAG }
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$TIME_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$TIME_TAG
+          docker build -t ${ ECR_REGISTRY }/${ ECR_REPOSITORY }:${ TIME_TAG } .
+          docker push ${ ECR_REGISTRY }/${ ECR_REPOSITORY }:${ TIME_TAG }
 
-      - name: Get version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: Get tag
-        run: |
-            echo ${{ steps.get_version.outputs.VERSION }}
-
-      - name: main branch
-        if: ${{ github.event.inputs.env == 'main' }}
-        run: |
-          echo 'main'-${{ steps.get_version.outputs.VERSION }}
-          
-      - name: dev branch
-        if: ${{ github.event.inputs.env == 'dev' }}
-        run: |
-          echo "DEV"-${{ steps.meta.outputs.tags }} 
-          echo ${{ github.event.inputs.env }}
+      # - name: Get version
+      #   id: get_version
+      #   run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
