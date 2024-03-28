@@ -58,7 +58,6 @@ jobs:
       - name: main branch
         if: ${{ github.event.inputs.env == 'main' }}
         run: |
-          cd demo && pwd && ls -l &&\
           echo 'main'-${{ steps.get_version.outputs.VERSION }}
           
       - name: dev branch
